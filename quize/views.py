@@ -4,7 +4,7 @@ from .models import Cretegory, Quiz, Question, Option, QuizAttempt
 from .serializers import CretegorySerializer, QuizSerializer, QuestionSerializer, OptionSerializer, QuizAttemptSerializer
 
 # Create your views here.
-class CretegoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Cretegory.objects.all()
     serializer_class = CretegorySerializer
 
