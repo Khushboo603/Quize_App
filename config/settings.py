@@ -85,12 +85,21 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "quize_db",
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
+
+
+        # "ENGINE": "django.db.backends.mysql",
+        # "NAME": "quize_db",
+        # 'USER': 'root',
+        # 'PASSWORD': 'root',
+        # 'HOST': '127.0.0.1',
+        # 'PORT': '3306'
+
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "quiz_db",
+        'USER': 'postgres',
+        'PASSWORD': 'Db@123',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 

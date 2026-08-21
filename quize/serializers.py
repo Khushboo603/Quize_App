@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import Cretegory, Quiz, Question, Option, QuizAttempt
+from .models import Category, Quiz, Question, Option, QuizAttempt
 
-class CretegorySerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Cretegory
+        model = Category
         fields = '__all__'
 
 class OptionSerializer(serializers.ModelSerializer):
@@ -27,3 +27,11 @@ class QuizAttemptSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuizAttempt
         fields = '__all__'
+
+class SubmitQuizSerializer(serializers.Serializer):
+    
+    quiz = serializers.IntegerField()
+
+    answers = serializers.ListField(
+        child=serializers.DictField()
+    )
