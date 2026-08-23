@@ -1,0 +1,25 @@
+services:
+
+  db:
+    image: postgres:18
+    container_name: quizapp_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Db@123
+      POSTGRES_DB: quiz_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build: .  
+    container_name: quizapp_web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  volumes:
+    postgres_data:  
