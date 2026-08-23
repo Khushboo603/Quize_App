@@ -40,6 +40,7 @@ class SubmitQuizView(APIView):
 
     def post(self, request):
         serializer = SubmitQuizSerializer(data=request.data)
+        print('serializer data:', serializer)
 
         if not serializer.is_valid():
             return Response(

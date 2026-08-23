@@ -98,7 +98,8 @@ DATABASES = {
         "NAME": "quiz_db",
         'USER': 'postgres',
         'PASSWORD': 'Db@123',
-        'HOST': 'localhost',
+        # 'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }
