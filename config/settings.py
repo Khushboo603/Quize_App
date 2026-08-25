@@ -101,6 +101,7 @@ DATABASES = {
         # 'HOST': 'localhost',
         'HOST': 'db',
         'PORT': '5432'
+        # admin username - KhushbooKumari ,email - kkhushboosinha4@gmail.com, password - quiz_Db@123
     }
 }
 

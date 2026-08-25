@@ -27,3 +27,5 @@ media/
 
 # macOS
 .DS_Store
+
+backup/
