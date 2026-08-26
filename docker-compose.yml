@@ -4,9 +4,12 @@ services:
     image: postgres:16
     container_name: quizapp_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Db@123
-      POSTGRES_DB: quiz_db
+      # POSTGRES_USER: postgres
+      # POSTGRES_PASSWORD: Db@123
+      # POSTGRES_DB: quiz_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -22,6 +25,13 @@ services:
       - "8000:8000"
     depends_on:
       - db
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
 
 volumes:
   postgres_data:  

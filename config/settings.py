@@ -10,10 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
@@ -94,14 +100,23 @@ DATABASES = {
         # 'HOST': '127.0.0.1',
         # 'PORT': '3306'
 
+        # "ENGINE": "django.db.backends.postgresql",
+        # "NAME": "quiz_db",
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'Db@123',
+        # # 'HOST': 'localhost',
+        # 'HOST': 'db',
+        # 'PORT': '5432'
+        # # admin username - KhushbooKumari ,email - kkhushboosinha4@gmail.com, password - quiz_Db@123
+
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "quiz_db",
-        'USER': 'postgres',
-        'PASSWORD': 'Db@123',
+        "NAME": os.getenv("POSTGRES_DB"),
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
         # 'HOST': 'localhost',
-        'HOST': 'db',
-        'PORT': '5432'
-        # admin username - KhushbooKumari ,email - kkhushboosinha4@gmail.com, password - quiz_Db@123
+        'HOST': os.getenv("POSTGRES_HOST"),
+        'PORT': os.getenv("POSTGRES_PORT")
+
     }
 }
 
