@@ -18,7 +18,8 @@ services:
   web:
     build: .  
     container_name: quizapp_web
-    command: python manage.py runserver 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --bind 0.0.0.0:8000 config.wsgi:application
     volumes:
       - .:/app
     ports:
