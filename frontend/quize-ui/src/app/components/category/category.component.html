@@ -1,7 +1,198 @@
-<p>category works!</p>
+<!-- <p>category works!</p>
 
 <ul>
     <li *ngFor="let category of categories">
         {{ category.name }} 
     </li>
-</ul>
+</ul> -->
+
+<div class="category-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Quiz Categories</h1>
+      <p>Choose a category and test your knowledge.</p>
+    </div>
+
+    <button type="button" class="add-btn" (click)="openAddCategory()">
+      + Add Category
+    </button>
+  </div>
+
+  <!-- Add Category Form -->
+  @if (showForm) {
+
+    <div class="form-card">
+
+      <div class="form-header">
+
+        <h2>Add Category</h2>
+
+        <button
+          type="button"
+          class="close-btn"
+          (click)="closeAddCategory()">
+
+          ×
+
+        </button>
+
+      </div>
+
+
+      <form
+        [formGroup]="categoryForm"
+        (ngSubmit)="submitCategory()">
+
+        <!-- Name -->
+        <div class="form-group">
+
+          <label for="name">
+            Category Name
+          </label>
+
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Enter category name"
+          />
+
+          @if (
+            name?.invalid &&
+            name?.touched
+          ) {
+
+            <div class="validation-error">
+
+              @if (name?.errors?.['required']) {
+                <span>
+                  Category name is required.
+                </span>
+              }
+
+              @if (name?.errors?.['minlength']) {
+                <span>
+                  Category name must contain at least 2 characters.
+                </span>
+              }
+
+              @if (name?.errors?.['maxlength']) {
+                <span>
+                  Category name cannot exceed 100 characters.
+                </span>
+              }
+
+            </div>
+
+          }
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="closeAddCategory()">
+
+            Cancel
+
+          </button>
+
+          <button
+            type="submit"
+            class="save-btn"
+            [disabled]="submitting">
+
+            @if (submitting) {
+              Creating...
+            } @else {
+              Create Category
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading">
+      Loading categories...
+    </div>
+  }
+
+
+  <!-- Error -->
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+
+      <button
+        type="button"
+        (click)="loadCategories()">
+        Retry
+      </button>
+    </div>
+  }
+
+
+  <!-- Categories -->
+  @if (!loading && !errorMessage) {
+
+    @if (categories.length > 0) {
+
+      <div class="category-grid">
+
+        @for (category of categories; track category.id) {
+
+          <div class="category-card">
+
+            <div class="category-icon">
+              ?
+            </div>
+
+            <div class="category-content">
+
+              <h2>
+                {{ category.name }}
+              </h2>
+
+              <p>
+                {{'Test your knowledge with this category.' }}
+              </p>
+
+            </div>
+
+            <button class="start-btn" (click)="startQuiz(category.id)">
+              Start Quiz
+            </button>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="empty-state">
+        <h2>No categories found</h2>
+        <p>
+          There are currently no quiz categories available.
+        </p>
+      </div>
+
+    }
+
+  }
+
+</div>
