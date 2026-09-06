@@ -333,3 +333,93 @@
   }
 
 }
+
+/* =========================
+   Options
+========================= */
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 15px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+
+  font-size: 14px;
+}
+
+.correct-label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.add-option-btn {
+  padding: 9px 15px;
+
+  border: 1px solid #ccc;
+  border-radius: 7px;
+
+  background: transparent;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   Option Form
+========================= */
+
+.option-form-card {
+  margin-bottom: 25px;
+  padding: 22px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.option-form-card h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+}
+
+.option-form-card input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 11px 13px;
+
+  border: 1px solid #ccc;
+  border-radius: 7px;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.checkbox-group {
+  margin-top: 15px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 14px;
+  cursor: pointer;
+}

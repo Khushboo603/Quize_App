@@ -4,3 +4,9 @@ export interface Option {
   option: string;
   is_correct: boolean;
 }
+
+export interface CreateOptionRequest {
+  question: number;
+  option: string;
+  is_correct: boolean;
+}

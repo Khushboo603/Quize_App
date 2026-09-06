@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiServiceService } from '../../services/api-service.service';
 import { CreateQuestionRequest, Question } from '../../models/question.model';
 import { API_ENDPOINTS } from '../../constants/api-endspoints';
+import { Option, CreateOptionRequest } from '../../models/option.model';
 
 @Component({
   selector: 'app-questions',
@@ -29,10 +30,24 @@ export class QuestionsComponent implements OnInit {
   errorMessage = '';
   submitting = false;
   showForm = false;
-  
-  constructor() { 
+
+  // Add options related properties
+  optionForm!: FormGroup;
+
+  selectedQuestionId!: number;
+
+  showOptionForm = false;
+
+  optionSubmitting = false;
+
+  constructor() {
     this.questionForm = this.fb.group({
       question: ['', [Validators.required, Validators.minLength(2)]],
+    });
+
+    this.optionForm = this.fb.group({
+      option: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      is_correct: [false]
     });
   }
 
@@ -105,5 +120,57 @@ export class QuestionsComponent implements OnInit {
 
   get question() {
     return this.questionForm.get('question');
+  }
+
+  openAddOption(questionId: number): void {
+
+    this.selectedQuestionId = questionId;
+
+    this.showOptionForm = true;
+
+    this.optionForm.reset({
+      option: '',
+      is_correct: false
+    });
+
+  }
+
+  closeOption(): void {
+    this.showOptionForm = false;
+    this.optionForm.reset({
+      option: '',
+      is_correct: false
+    });
+  }
+
+  submitOption(): void {
+    if (this.optionForm.invalid) {
+      this.optionForm.markAllAsTouched();
+      return;
+    }
+    this.optionSubmitting = true;
+
+    const optionData: CreateOptionRequest = {
+      question: this.selectedQuestionId,
+      option: this.optionForm.value.option,
+      is_correct: this.optionForm.value.is_correct
+    };
+
+    console.log('Submitting option:', optionData);
+
+    this.api.postData<Option>(API_ENDPOINTS.options, optionData).subscribe({
+      next: (createdOption) => {
+        // Handle successful option submission
+        this.optionSubmitting = false;
+        this.closeOption();
+
+        this.loadQuestions();
+      },
+      error: (error) => {
+        console.error('Error submitting option:', error);
+        this.optionSubmitting = false;
+        this.errorMessage = 'Failed to submit option.';
+      }
+    });
   }
 }
