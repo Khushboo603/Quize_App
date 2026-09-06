@@ -37,9 +37,19 @@ class QuizViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+# class QuestionViewSet(viewsets.ModelViewSet):
+#     queryset = Question.objects.all()
+#     serializer_class = QuestionSerializer
+
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        quiz_id = self.request.query_params.get('quiz')
+        if quiz_id:
+            return self.queryset.filter(quiz_id=quiz_id)
+        return self.queryset
 
 class OptionViewSet(viewsets.ModelViewSet):
     queryset = Option.objects.all()

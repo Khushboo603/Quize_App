@@ -1,0 +1,211 @@
+<div class="questions-page">
+
+  <!-- Header -->
+
+  <div class="page-header">
+
+    <div>
+
+      <h1>Questions</h1>
+
+      <p>
+        Manage questions for this quiz.
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="add-question-btn"
+      (click)="openAddQuestion()"
+    >
+      + Add Question
+    </button>
+
+  </div>
+
+
+  <!-- Error -->
+
+  @if (errorMessage) {
+
+    <div class="error-message">
+
+      {{ errorMessage }}
+
+      <button
+        type="button"
+        (click)="loadQuestions()"
+      >
+        Retry
+      </button>
+
+    </div>
+
+  }
+
+
+  <!-- Add Question Form -->
+
+  @if (showForm) {
+
+    <div class="question-form-card">
+
+      <h2>
+        Add Question
+      </h2>
+
+      <form
+        [formGroup]="questionForm"
+        (ngSubmit)="submitQuestion()"
+      >
+
+        <div class="form-group">
+
+          <label for="question">
+            Question
+          </label>
+
+          <textarea
+            id="question"
+            formControlName="question"
+            placeholder="Enter your question"
+            rows="4"
+          ></textarea>
+
+
+          @if (
+            question?.touched &&
+            question?.invalid
+          ) {
+
+            <div class="validation-error">
+
+              @if (
+                question?.errors?.['required']
+              ) {
+
+                <span>
+                  Question is required.
+                </span>
+
+              }
+
+              @if (
+                question?.errors?.['minlength']
+              ) {
+
+                <span>
+                  Question must be at least 2 characters.
+                </span>
+
+              }
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            (click)="closeAddQuestion()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            [disabled]="submitting"
+          >
+
+            @if (submitting) {
+              Creating...
+            } @else {
+              Create Question
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- Loading -->
+
+  @if (loading) {
+
+    <div class="loading">
+      Loading questions...
+    </div>
+
+  }
+
+
+  <!-- Question List -->
+
+  @if (!loading) {
+
+    @if (questions.length > 0) {
+
+      <div class="question-list">
+
+        @for (
+          questionItem of questions;
+          track questionItem.id
+        ) {
+
+          <div class="question-card">
+
+            <div class="question-number">
+
+              Question {{ $index + 1 }}
+
+            </div>
+
+            <h2>
+              {{ questionItem.question }}
+            </h2>
+
+            <p>
+              {{ questionItem.options.length }}
+              Options
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      @if (!showForm) {
+
+        <div class="empty-state">
+
+          <h2>
+            No questions found
+          </h2>
+
+          <p>
+            Add the first question to this quiz.
+          </p>
+
+        </div>
+
+      }
+
+    }
+
+  }
+
+</div>
