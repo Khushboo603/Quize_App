@@ -1,0 +1,187 @@
+<div class="quiz-page">
+
+  <!-- <div class="page-header">
+
+    <div>
+      <h1>Quizzes</h1>
+
+      <p>
+        Choose a quiz and test your knowledge.
+      </p>
+    </div>
+
+    <button
+    type="button"
+    class="add-quiz-btn"
+    (click)="createQuiz()"
+  >
+    + Add Quiz
+  </button>
+
+  </div> -->
+  <div class="page-header">
+    <div>
+      <h1>Quizzes</h1>
+      <p>Choose a quiz and test your knowledge.</p>
+    </div>
+
+    <button type="button" class="add-btn" (click)="openAddQuiz()">
+      + Add Quiz
+    </button>
+  </div>
+
+  <!-- Add Quize Form -->
+  @if (showForm) {
+
+  <div class="form-card">
+
+    <div class="form-header">
+
+      <h2>Add Quiz</h2>
+
+      <button type="button" class="close-btn" (click)="closeAddQuiz()">
+
+        ×
+
+      </button>
+
+    </div>
+    <form [formGroup]="quizForm" (ngSubmit)="createQuiz()">
+
+      <!-- Title -->
+      <div class="form-group">
+
+        <label for="title">
+          Quiz Title
+        </label>
+
+        <input id="title" type="text" formControlName="title" placeholder="Enter quiz title" />
+
+        @if (
+        title?.invalid &&
+        title?.touched
+        ) {
+        <div class="validation-error">
+          @if (title?.errors?.['required']) {
+          <span>Quiz title is required.</span>
+          } @else if (title?.errors?.['minlength']) {
+          <span>Quiz title must be at least 2 characters long.</span>
+          } @else if (title?.errors?.['maxlength']) {
+          <span>Quiz title cannot exceed 100 characters.</span>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="closeAddQuiz()">
+          Cancel
+        </button>
+
+        <button type="submit" class="save-btn" [disabled]="submitting">
+          @if (submitting) {
+          Creating...
+          } @else {
+          Create Quiz
+          }
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  }
+
+  <!-- Loading -->
+
+  @if (loading) {
+
+  <div class="loading">
+    Loading quizzes...
+  </div>
+
+  }
+
+
+  <!-- Error -->
+
+  @if (errorMessage) {
+
+  <div class="error-message">
+
+    {{ errorMessage }}
+
+    <button type="button" (click)="loadQuizzes()">
+
+      Retry
+
+    </button>
+
+  </div>
+
+  }
+
+
+  <!-- Quiz List -->
+
+  @if (!loading && !errorMessage) {
+
+  @if (quizzes.length > 0) {
+
+  <div class="quiz-grid">
+
+    @for (quiz of quizzes; track quiz.id) {
+
+    <div class="quiz-card">
+
+      <div class="quiz-icon">
+        ?
+      </div>
+
+      <div class="quiz-content">
+
+        <h2>
+          {{ quiz.title }}
+        </h2>
+
+        <p>
+          {{ quiz.questions.length }}
+          Questions
+        </p>
+
+      </div>
+
+      <button type="button" class="question-btn" (click)="manageQuestions(quiz.id)">
+        Questions
+      </button>
+
+      <button type="button" class="start-btn" (click)="startQuiz(quiz.id)">
+
+        Start Quiz
+
+      </button>
+
+    </div>
+
+    }
+
+  </div>
+
+  } @else {
+
+  <div class="empty-state">
+
+    <h2>No quizzes found</h2>
+
+    <p>
+      There are currently no quizzes available.
+    </p>
+
+  </div>
+
+  }
+
+  }
+
+</div>

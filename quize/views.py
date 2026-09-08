@@ -19,13 +19,37 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     permission_classes = [AllowAny] # This allows any user to access this viewset without authentication. If we want to restrict access to authenticated users only, we can use IsAuthenticated permission class instead of AllowAny.
 
+# class QuizViewSet(viewsets.ModelViewSet):
+#     queryset = Quiz.objects.all()
+#     serializer_class = QuizSerializer
+
 class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
 
+    def get_queryset(self):
+        queryset = Quiz.objects.all()
+
+        category_id = self.request.query_params.get('category')
+
+        if category_id:
+            queryset = queryset.filter(Category_id=category_id)
+
+        return queryset
+
+# class QuestionViewSet(viewsets.ModelViewSet):
+#     queryset = Question.objects.all()
+#     serializer_class = QuestionSerializer
+
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        quiz_id = self.request.query_params.get('quiz')
+        if quiz_id:
+            return self.queryset.filter(quiz_id=quiz_id)
+        return self.queryset
 
 class OptionViewSet(viewsets.ModelViewSet):
     queryset = Option.objects.all()

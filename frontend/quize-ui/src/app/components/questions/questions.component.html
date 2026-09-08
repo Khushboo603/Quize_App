@@ -1,0 +1,338 @@
+<div class="questions-page">
+
+  <!-- Header -->
+
+  <div class="page-header">
+
+    <div>
+
+      <h1>Questions</h1>
+
+      <p>
+        Manage questions for this quiz.
+      </p>
+
+    </div>
+
+    <button type="button" class="add-question-btn" (click)="openAddQuestion()">
+      + Add Question
+    </button>
+
+  </div>
+
+
+  <!-- Error -->
+
+  @if (errorMessage) {
+
+  <div class="error-message">
+
+    {{ errorMessage }}
+
+    <button type="button" (click)="loadQuestions()">
+      Retry
+    </button>
+
+  </div>
+
+  }
+
+
+  <!-- Add Question Form -->
+
+  @if (showForm) {
+
+  <div class="question-form-card">
+
+    <h2>
+      Add Question
+    </h2>
+
+    <form [formGroup]="questionForm" (ngSubmit)="submitQuestion()">
+
+      <div class="form-group">
+
+        <label for="question">
+          Question
+        </label>
+
+        <textarea id="question" formControlName="question" placeholder="Enter your question" rows="4"></textarea>
+
+
+        @if (
+        question?.touched &&
+        question?.invalid
+        ) {
+
+        <div class="validation-error">
+
+          @if (
+          question?.errors?.['required']
+          ) {
+
+          <span>
+            Question is required.
+          </span>
+
+          }
+
+          @if (
+          question?.errors?.['minlength']
+          ) {
+
+          <span>
+            Question must be at least 2 characters.
+          </span>
+
+          }
+
+        </div>
+
+        }
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button type="button" (click)="closeAddQuestion()">
+          Cancel
+        </button>
+
+        <button type="submit" [disabled]="submitting">
+
+          @if (submitting) {
+          Creating...
+          } @else {
+          Create Question
+          }
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  }
+
+  <!-- Add Option Form -->
+
+  @if (showOptionForm) {
+
+  <div class="option-form-card">
+
+    <h2>
+      Add Option
+    </h2>
+
+    <form [formGroup]="optionForm" (ngSubmit)="submitOption()">
+
+      <div class="form-group">
+
+        <label for="option">
+          Option
+        </label>
+
+        <input id="option" type="text" formControlName="option" placeholder="Enter option" />
+
+        @if (
+        optionForm.get('option')?.touched &&
+        optionForm.get('option')?.invalid
+        ) {
+
+        <div class="validation-error">
+
+          @if (
+          optionForm.get('option')?.errors?.['required']
+          ) {
+
+          <span>
+            Option is required.
+          </span>
+
+          }
+
+          @if (
+          optionForm.get('option')?.errors?.['maxlength']
+          ) {
+
+          <span>
+            Option cannot exceed 100 characters.
+          </span>
+
+          }
+
+        </div>
+
+        }
+
+      </div>
+
+
+      <div class="checkbox-group">
+
+        <label>
+
+          <input type="checkbox" formControlName="is_correct" />
+
+          Correct Answer
+
+        </label>
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button type="button" (click)="closeOption()">
+          Cancel
+        </button>
+
+        <button type="submit" [disabled]="optionSubmitting">
+
+          @if (optionSubmitting) {
+          Creating...
+          } @else {
+          Create Option
+          }
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  }
+
+
+  <!-- Loading -->
+
+  @if (loading) {
+
+  <div class="loading">
+    Loading questions...
+  </div>
+
+  }
+
+
+  <!-- Question List -->
+
+  @if (!loading) {
+
+  @if (questions.length > 0) {
+
+  <div class="question-list">
+
+    @for (
+    questionItem of questions;
+    track questionItem.id
+    ) {
+
+    <!-- <div class="question-card">
+
+            <div class="question-number">
+
+              Question {{ $index + 1 }}
+
+            </div>
+
+            <h2>
+              {{ questionItem.question }}
+            </h2>
+
+            <p>
+              {{ questionItem.options.length }}
+              Options
+            </p>
+
+          </div> -->
+    <div class="question-card">
+
+      <div class="question-number">
+        Question {{ $index + 1 }}
+      </div>
+
+      <h2>
+        {{ questionItem.question }}
+      </h2>
+
+
+      <!-- Options -->
+
+      <div class="options">
+
+        @if (questionItem.options.length > 0) {
+
+        @for (
+        option of questionItem.options;
+        track option.id
+        ) {
+
+        <div class="option-item">
+
+          <span>
+            {{ option.option }}
+          </span>
+
+          @if (option.is_correct) {
+
+          <span class="correct-label">
+            Correct
+          </span>
+
+          }
+
+        </div>
+
+        }
+
+        } @else {
+
+        <p>
+          No options added yet.
+        </p>
+
+        }
+
+      </div>
+
+
+      <!-- Add Option -->
+
+      <button type="button" class="add-option-btn" (click)="openAddOption(questionItem.id)">
+        + Add Option
+      </button>
+
+    </div>
+    }
+
+  </div>
+
+  } @else {
+
+  @if (!showForm) {
+
+  <div class="empty-state">
+
+    <h2>
+      No questions found
+    </h2>
+
+    <p>
+      Add the first question to this quiz.
+    </p>
+
+  </div>
+
+  }
+
+  }
+
+  }
+
+</div>
