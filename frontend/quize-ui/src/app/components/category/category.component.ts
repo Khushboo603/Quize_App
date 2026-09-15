@@ -33,10 +33,12 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('CategoryComponent initialized');
     this.loadCategories();
   }
 
   loadCategories(): void {
+    console.log('loadCategories() called');
     this.api.getData<Category[]>(API_ENDPOINTS.categories).subscribe({
       next: (data) => {
         this.categories = data

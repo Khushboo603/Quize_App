@@ -34,6 +34,15 @@ services:
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
 
+  frontend:
+    build:
+      context: ./frontend/quize-ui
+      dockerfile: Dockerfile
+    container_name: quizapp_frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - web
 volumes:
   postgres_data:  
 
