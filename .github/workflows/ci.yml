@@ -83,3 +83,28 @@ jobs:
 
       - name: Build Angular application
         run: npm run build
+
+  docker:
+    name: Docker CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: quizapp-backend:ci
+
+      - name: Build frontend Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend/quize-ui
+          push: false
+          tags: quizapp-frontend:ci
